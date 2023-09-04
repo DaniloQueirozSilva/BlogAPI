@@ -1,4 +1,5 @@
-﻿using Blog.Models;
+﻿using Blog.Extensions;
+using Blog.Models;
 using Blog.ViewModels;
 using BlogEF.Data;
 using Microsoft.AspNetCore.Mvc;
@@ -17,12 +18,13 @@ namespace Blog.Controllers
             try
             {
                 var categories = await context.Categories.ToListAsync();
-                return Ok(categories);
+
+                return Ok(new ResultViewModel<List<Category>>(categories));
 
             }
-            catch (Exception ex)
+            catch
             {
-                return BadRequest(ex.Message);
+                return StatusCode(500,new ResultViewModel<List<Category>>("05X04 - Falha interna no servidor"));
             }
 
         }
@@ -37,15 +39,15 @@ namespace Blog.Controllers
 
                 if (category == null)
                 {
-                    return NotFound();
+                    return NotFound(new ResultViewModel<Category>("Conteúdo não encontrado"));
                 }
 
-                return Ok(category);
+                return Ok(new ResultViewModel<Category>(category));
 
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(500,new ResultViewModel<Category>("Falha interna no servidor"));
             }
 
         }
@@ -53,15 +55,15 @@ namespace Blog.Controllers
         [HttpPost("v1/categories/")]
         public async Task<IActionResult> PostAsync([FromServices] BlogDataContext context, [FromBody] EditorCategoryViewModel model)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    return BadRequest();
-            //}
+            if (!ModelState.IsValid)
+            {          
+                return BadRequest(new ResultViewModel<Category>(ModelState.GetErrors()));
+            }
             try
             {
                 var category = new Category
                 {
-                    Id = 0,                  
+                    Id = 0,
                     Name = model.Name,
                     Slug = model.Slug.ToLower(),
                 };
