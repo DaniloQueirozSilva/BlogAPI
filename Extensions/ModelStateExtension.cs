@@ -10,7 +10,7 @@ namespace Blog.Extensions
             foreach (var item in modelState.Values)
             {
                 foreach (var error in item.Errors ) 
-                { 
+                {  
                     result.AddRange(item.Errors.Select(error => error.ErrorMessage));
                 }
             }

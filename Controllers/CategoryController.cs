@@ -76,11 +76,11 @@ namespace Blog.Controllers
             }
             catch (DbUpdateException ex)
             {
-                return StatusCode(500, "05XE9 - Não foi possivel incluir a categoria");
+                return StatusCode(500, new ResultViewModel<Category>("05XE9 - Não foi possivel incluir a categoria"));
             }
-            catch (Exception ex)
+            catch 
             {
-                return StatusCode(500, "05XE10 - Falha interna no servidor!");
+                return StatusCode(500, new ResultViewModel<Category>("05XE10 - Falha interna no servidor!"));
             }
 
         }
@@ -97,7 +97,11 @@ namespace Blog.Controllers
 
                 if (category == null)
                 {
-                    return NotFound();
+                    return NotFound(new ResultViewModel<Category>("Objeto não encontrado"));
+                }
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(new ResultViewModel<Category>(ModelState.GetErrors()));
                 }
 
                 category.Name = model.Name;
@@ -107,16 +111,16 @@ namespace Blog.Controllers
 
                 await context.SaveChangesAsync();
 
-                return Ok(category);
+                return Ok(new ResultViewModel<Category>(category));
 
             }
             catch (DbUpdateException ex)
             {
-                return StatusCode(500, "05XE8 - Não foi possivel alterar a categoria");
+                return StatusCode(500, new ResultViewModel<Category>("05XE8 - Não foi possivel alterar a categoria"));
             }
             catch (Exception ex)
             {
-                return StatusCode(500, "05XE11 - Falha interna no servidor!");
+                return StatusCode(500, new ResultViewModel<Category>("05XE11 - Falha interna no servidor!"));
             }
 
         }
@@ -131,7 +135,7 @@ namespace Blog.Controllers
 
                 if (category == null)
                 {
-                    return NotFound();
+                    return NotFound(new ResultViewModel<Category>("Objeto não encotrado"));
                 }
 
                 context.Categories.Remove(category);
@@ -143,11 +147,11 @@ namespace Blog.Controllers
             }
             catch (DbUpdateException ex)
             {
-                return StatusCode(500, "05XE7 - Não foi possivel excluir a categoria");
+                return StatusCode(500, new ResultViewModel<Category>("05XE7 - Não foi possivel excluir a categoria"));
             }
             catch (Exception ex)
             {
-                return StatusCode(500, "05XE12 - Falha interna no servidor!");
+                return StatusCode(500, new ResultViewModel<Category>("05XE12 - Falha interna no servidor!"));
             }
 
         }
