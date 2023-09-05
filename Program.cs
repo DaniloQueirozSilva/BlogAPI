@@ -1,4 +1,4 @@
-using BlogEF.Data;
+using Blog.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 

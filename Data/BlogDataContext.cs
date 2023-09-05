@@ -4,7 +4,7 @@ using BlogEF.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Net.Security;
 
-namespace BlogEF.Data
+namespace Blog.Data
 {
     public class BlogDataContext : DbContext
     {

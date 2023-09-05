@@ -1,7 +1,7 @@
 ﻿using Blog.Extensions;
 using Blog.Models;
 using Blog.ViewModels;
-using BlogEF.Data;
+using Blog.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
