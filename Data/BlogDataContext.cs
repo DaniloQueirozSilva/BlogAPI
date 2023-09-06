@@ -8,6 +8,8 @@ namespace Blog.Data
 {
     public class BlogDataContext : DbContext
     {
+     
+     
         public DbSet<Category> Categories { get; set; }
         public DbSet<Post> Posts { get; set; }             
         public DbSet<User> Users { get; set; }
@@ -18,8 +20,13 @@ namespace Blog.Data
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         =>  options.UseSqlServer("TrustServerCertificate=True;Persist Security Info=False;Integrated Security=true;Initial Catalog=Blog;server=DESKTOP-3PVVSJJ\\SERVERSQL");
 
-           
-        
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new CategoryMap());
+            modelBuilder.ApplyConfiguration(new UserMap());
+            modelBuilder.ApplyConfiguration(new PostMap());
+        }
+
 
     }
 }
