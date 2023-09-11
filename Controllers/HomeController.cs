@@ -1,13 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Blog.Attributes;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Blog.Controllers
 {
 
     [ApiController]
-    [Route("v1")]
+    [Route("")]
     public class HomeController : ControllerBase
     {
-        [HttpGet("health-check")]
+        [HttpGet("")]
+        [ApiKey]
         public ActionResult Get() {
 
             return Ok(new

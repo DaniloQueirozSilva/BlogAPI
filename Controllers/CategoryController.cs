@@ -4,10 +4,12 @@ using Blog.ViewModels;
 using Blog.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Blog.Controllers
 {
     [ApiController]
+    [Authorize]
 
     public class CategoryController : ControllerBase
     {

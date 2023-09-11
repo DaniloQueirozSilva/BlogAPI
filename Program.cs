@@ -31,7 +31,7 @@ builder
     .AddControllers()
     .ConfigureApiBehaviorOptions(options => {
         options.SuppressModelStateInvalidFilter = true;
-});
+}); //Desativa a validação automatica do modelState
 builder.Services.AddDbContext<BlogDataContext>();
 builder.Services.AddTransient<TokenService>();
 
