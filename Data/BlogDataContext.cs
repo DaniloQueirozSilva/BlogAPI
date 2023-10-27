@@ -18,7 +18,7 @@ namespace Blog.Data
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
-        =>  options.UseSqlServer("TrustServerCertificate=True;Persist Security Info=False;Integrated Security=true;Initial Catalog=Blog;server=DESKTOP-3PVVSJJ\\SERVERSQL");
+        =>  options.UseSqlServer("TrustServerCertificate=True;Persist Security Info=False;Integrated Security=true;Initial Catalog=Blog;server=DESKTOP-CNEN69R");
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing.Constraints;
 using Microsoft.EntityFrameworkCore;
 using SecureIdentity.Password;
+using System.Net.Mail;
 
 namespace Blog.Controllers
 {
@@ -18,7 +19,7 @@ namespace Blog.Controllers
 
         [HttpPost("v1/accounts/")]
         public async Task<IActionResult> Post([FromBody] RegisterViewModel model,
-            [FromServices] BlogDataContext context)
+            [FromServices] BlogDataContext context, [FromServices] EmailService email)
         {
 
             if(!ModelState.IsValid)            
@@ -41,6 +42,9 @@ namespace Blog.Controllers
                 await context.Users.AddAsync(user);
                 await context.SaveChangesAsync();
 
+                email.Send(model.Email, "Cadastro Realizado" ,string.Format("Usuario Criado!  Suas credencias para login, email: {0} senha: {1}", user.Email, password));
+
+
                 return Ok(new ResultViewModel<dynamic>(new
                 {
                     user = user.Email, password = password
@@ -48,6 +52,10 @@ namespace Blog.Controllers
             }catch(DbUpdateException ex)
             {
                 return StatusCode(400, new ResultViewModel<string>("05X99 - Este E-mail já cadastrado"));
+            }
+            catch (SmtpException ex)
+            {
+                return StatusCode(503, new ResultViewModel<string>("05X01 - Erro ao enviar email, tente novamente mais tarde"));
             }
             catch
             {
