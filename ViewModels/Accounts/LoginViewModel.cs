@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Blog.ViewModels
+namespace Blog.ViewModels.Accounts
 {
     public class LoginViewModel
     {
@@ -8,7 +8,7 @@ namespace Blog.ViewModels
         [EmailAddress(ErrorMessage = "O emial é inválido")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Informe a senha")]       
+        [Required(ErrorMessage = "Informe a senha")]
         public string Password { get; set; }
     }
 }
