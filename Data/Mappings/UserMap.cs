@@ -50,11 +50,6 @@ namespace BlogEF.Data.Mappings
                 .HasColumnType("VARCHAR")
                 .HasMaxLength(80);
 
-            builder.Property(x => x.GitHub)
-                .HasColumnName("GitHub")
-                .HasColumnType("NVARCHAR")
-                .HasMaxLength(225)
-                .IsRequired(false); ;
 
             // Índices
             builder

@@ -161,12 +161,7 @@ namespace Blog.Migrations
                         .IsRequired()
                         .HasMaxLength(160)
                         .HasColumnType("VARCHAR")
-                        .HasColumnName("Email");
-
-                    b.Property<string>("GitHub")
-                        .HasMaxLength(225)
-                        .HasColumnType("NVARCHAR")
-                        .HasColumnName("GitHub");
+                        .HasColumnName("Email");                
 
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");

@@ -64,8 +64,7 @@ namespace Blog.Migrations
                     PasswordHash = table.Column<string>(type: "VARCHAR(255)", maxLength: 255, nullable: false),
                     Slug = table.Column<string>(type: "VARCHAR(80)", maxLength: 80, nullable: false),
                     Bio = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    GitHub = table.Column<string>(type: "NVARCHAR(225)", maxLength: 225, nullable: true)
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true)                   
                 },
                 constraints: table =>
                 {

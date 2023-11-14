@@ -6,6 +6,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Text.Json.Serialization;
 using static Blog.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -65,8 +66,14 @@ void ConfigureMvc(WebApplicationBuilder builder)
     .Services
     .AddControllers()
     .ConfigureApiBehaviorOptions(options => {
-        options.SuppressModelStateInvalidFilter = true;
-    }); //Desativa a validação automatica do modelState
+        options.SuppressModelStateInvalidFilter = true; //Desativa a validação automatica do modelState
+    })
+    .AddJsonOptions(x =>
+    {
+        x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+        //x.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault;
+    
+    }); 
    
 }
 
