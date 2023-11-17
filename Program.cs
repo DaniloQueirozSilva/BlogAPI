@@ -2,14 +2,15 @@ using Blog;
 using Blog.Data;
 using Blog.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Options;
-using Microsoft.Identity.Client;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.IdentityModel.Tokens;
+using System.IO.Compression;
 using System.Text;
 using System.Text.Json.Serialization;
 using static Blog.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
+
 ConfigureAuthentication(builder);
 ConfigureMvc(builder);
 ConfigureServices(builder);
@@ -17,9 +18,11 @@ ConfigureServices(builder);
 
 
 var app = builder.Build();
+
 LoadConfiguration(app);
 
 app.UseAuthentication ();
+app.UseResponseCompression();
 app.UseAuthorization();
 app.UseStaticFiles();
 
@@ -62,6 +65,20 @@ void ConfigureAuthentication(WebApplicationBuilder builder)
 
 void ConfigureMvc(WebApplicationBuilder builder)
 {
+    builder.Services.AddMemoryCache();
+  
+    builder.Services.AddResponseCompression(options =>
+    {
+        options.EnableForHttps = true;
+        options.Providers.Add<GzipCompressionProvider>();      
+    });
+
+    builder.Services.Configure<GzipCompressionProviderOptions>(options =>
+    {
+        options.Level = CompressionLevel.SmallestSize;
+    });
+
+
     builder
     .Services
     .AddControllers()
@@ -79,7 +96,7 @@ void ConfigureMvc(WebApplicationBuilder builder)
 
 void ConfigureServices(WebApplicationBuilder builder)
 {
-
+  
     builder.Services.AddDbContext<BlogDataContext>();
     builder.Services.AddTransient<TokenService>();
     builder.Services.AddTransient<EmailService>();
