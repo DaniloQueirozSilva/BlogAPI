@@ -12,6 +12,8 @@ using static Blog.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
+bool islocalhost = Environment.GetEnvironmentVariable("prd") == null;
+
 
 ConfigureAuthentication(builder);
 ConfigureMvc(builder);
@@ -108,8 +110,17 @@ void ConfigureMvc(WebApplicationBuilder builder)
 
 void ConfigureServices(WebApplicationBuilder builder)
 {
+    string connectionString;
+    if (islocalhost)
+    {
+        connectionString = builder.Configuration["ConnectionString:DataBase"];
+    }
+    else
+    {
+        connectionString = Environment.GetEnvironmentVariable("connectionString");
+    }
 
-    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
     builder.Services.AddDbContext<BlogDataContext>(option => option.UseSqlServer(connectionString));
     builder.Services.AddTransient<TokenService>();
     builder.Services.AddTransient<EmailService>();
